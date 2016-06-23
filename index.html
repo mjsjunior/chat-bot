@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chat</title>
+	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+	<script src="typed.min.js"></script>
+	
+	<script>
+
+	var apiResponse = {
+		msg:[
+		"Oi, eu sou a Aline. ^1000 Parabéns por se preocupar com sua saúde. ^500 Reeducação alimentar pode ser complexo, ^300 mas eu estou aqui para te ajudar a chegar lá. ^1000",
+		"Antes de começarmos, como posso te chamar? :)"
+		],
+		type:"question_name"
+	}
+
+
+	function inserirMensagem(printText,next){
+		$('#chat').typed({
+	    	strings: [printText],
+	    	contentType: 'html',
+	    	typeSpeed:-100
+		})
+		next();
+	}
+
+	function perguntaNome(){
+		console.log('Pergunta nome');
+		console.log('Exibit div input na tela');
+	}
+
+	function iniciarChat(chat){
+		var printText = '';
+		for(i in chat.msg){
+			var htmlLine = '<div><img src="http://www.casinohermes.com/wp-content/uploads/2015/11/icon-chat.png" style="width:20px;height:20px"> {{MSGTEXT}}<br /><div>';
+			printText += htmlLine.replace('{{MSGTEXT}}',chat.msg[i]);
+		}
+		
+		$(function(){
+			if(chat.type === 'question_name')
+				inserirMensagem(printText,perguntaNome())
+			else
+				console.log('Outra function')
+		});
+	}
+
+iniciarChat(apiResponse);
+
+
+
+
+
+</script>
+</head>
+<body>
+	<span id="chat">
+		
+	</span>
+</body>
+</html>
