@@ -7,50 +7,83 @@
 	<script src="typed.min.js"></script>
 	
 	<script>
-
-	var apiResponse = {
-		msg:[
-		"Oi, eu sou a Aline. ^1000 Parabéns por se preocupar com sua saúde. ^500 Reeducação alimentar pode ser complexo, ^300 mas eu estou aqui para te ajudar a chegar lá. ^1000",
-		"Antes de começarmos, como posso te chamar? :)"
-		],
-		type:"question_name"
-	}
-
-
-	function inserirMensagem(printText,next){
-		$('#chat').typed({
-	    	strings: [printText],
-	    	contentType: 'html',
-	    	typeSpeed:-100
-		})
-		next();
-	}
-
-	function perguntaNome(){
-		alert('Qual seu nome ?')
-		console.log('Pergunta nome');
-		console.log('Exibit div input na tela');
-	}
-
-	function iniciarChat(chat){
-		var printText = '';
-		for(i in chat.msg){
-			var htmlLine = '<div><img src="http://www.casinohermes.com/wp-content/uploads/2015/11/icon-chat.png" style="width:20px;height:20px"> {{MSGTEXT}}<br /><div>';
-			printText += htmlLine.replace('{{MSGTEXT}}',chat.msg[i]);
+		var apiResponse = {
+			msg:["Oi, eu sou a aline. ^1000 Parabéns por se preocupar em ter uma alimentação mais saudavel. ^500 Reeducação Alimentar pode parecer complexo, ^300 mas eu estou aqui para te ajudar. ^1000",
+			"Antes de começarmos, qual seu nome ?",
+			],
+			type:"question_name"
 		}
-		
-		$(function(){
-			if(chat.type === 'question_name')
-				inserirMensagem(printText,perguntaNome())
-			else
-				console.log('Outra function')
-		});
+
+function qualSeuNome(){
+  nome = prompt('QUAL SEU NOME ?');
+  var apiResponse2 = {
+		msg:["OLA, "+nome+" qual sua idade ?"],
+		type:"question_age"
 	}
+  executarChat(apiResponse2)
+}
 
-iniciarChat(apiResponse);
+function qualSuaIdade(){
+  idade = prompt('QUAL SUA IDADE ?');
+  var apiResponse3 = {
+		msg:["Então você tem "+idade+" anos, qual sua cidade ? "],
+		type:"question_city"
+	}
+   executarChat(apiResponse3)
+}
+
+function qualSuaCidade(){
+  cidade = prompt('QUAL SUA CIDADE ?');
+  var apiResponse4 = {
+		msg:["Então você mora em "+cidade+", legal!! Tchau!"],
+		type:"null"
+	}
+  executarChat(apiResponse4)
+}
+
+function executarChat(apiResponse) {
+ 	var p1 = new Promise(
+    function(resolve, reject) {
+     	console.log('Aline digitando...');
+
+     	var printText = '';
+		for(i in apiResponse.msg){
+			var htmlLine = '<div><img src="http://www.casinohermes.com/wp-content/uploads/2015/11/icon-chat.png" style="width:20px;height:20px"> {{MSGTEXT}}<br /><div>';
+			printText += htmlLine.replace('{{MSGTEXT}}',apiResponse.msg[i]);
+		}
+
+	 	$(function(){
+	 		$("#chat").typed({
+	            strings: [printText],
+	            typeSpeed: -80,
+	            contentType:'html'
+	        });
+
+	   		//como descobrir se a função de cima ja temrinou de digitar :@
+
+        	resolve(apiResponse.type)
+	        
+	    });
+
+	    
+    });
+
+	p1.then(function(data){
+		if(data == 'question_name'){
+			console.log('FUNÇÂO DE NOME');
+			alert('nome');
+		}
+
+		if(data == 'question_age')
+			console.log('FUNÇÂO DE IDADE');
+
+		if(data == 'question_city')
+			console.log('FUNÇÂO DE CIDADE');
+	})
+}
 
 
-
+executarChat(apiResponse)
 
 
 </script>
